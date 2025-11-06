@@ -1,91 +1,54 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import BookAppointment from "./components/BookAppointment";
+import AdminQueue from "./components/AdminQueue"
+import Admin from "./components/Admin";
 
 function App() {
-  const [form, setForm] = useState({
-    name: "",
-    contact: "",
-    gender: "",
-    appointmentTime: "",
-    problem: "",
-  });
-  const [appointments, setAppointments] = useState([]);
-
-  const API_URL = "https://hospitalappointmentbackendapi.onrender.com/api/appointment";
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const bookAppointment = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.post(`${API_URL}/book`, form);
-      alert("Appointment booked successfully!");
-      fetchAppointments();
-    } catch (err) {
-      alert("Failed to book appointment");
-    }
-  };
-
-  const fetchAppointments = async () => {
-    const res = await axios.get(`${API_URL}/all`);
-    setAppointments(res.data);
-  };
-
-  useEffect(() => {
-    fetchAppointments();
-  }, []);
-
   return (
-    <div style={{ padding: 20 }}>
-      <h2>🏥 Hospital Appointment Booking</h2>
+    <Router>
+      <div className="min-h-screen bg-gray-50">
+        {/* ✅ Modern Header */}
+        <header className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-lg">
+          <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
+            {/* Hospital Name */}
+            <h1 className="text-2xl font-bold tracking-wide flex items-center gap-2">
+              🏥 Shree Ganesh Hospital
+            </h1>
 
-      <form onSubmit={bookAppointment} style={{ marginBottom: 20 }}>
-        <input name="name" placeholder="Name" onChange={handleChange} required />
-        <input name="contact" placeholder="Contact" onChange={handleChange} required />
-        <select name="gender" onChange={handleChange} required>
-          <option value="">Select Gender</option>
-          <option>Male</option>
-          <option>Female</option>
-          <option>Other</option>
-        </select>
-        <input
-          name="appointmentTime"
-          type="datetime-local"
-          onChange={handleChange}
-          required
-        />
-        <input name="problem" placeholder="Problem" onChange={handleChange} required />
-        <button type="submit">Book Appointment</button>
-      </form>
+            {/* Navigation */}
+            <nav className="flex gap-6">
+              {/* <Link
+                to="/"
+                className="hover:text-yellow-300 font-medium transition"
+              >
+                Book Appointment
+              </Link> */}
+              <Link
+                to="/admin"
+                className="hover:text-yellow-300 font-medium transition"
+              >
+                Patient Queue (Admin View)
+              </Link>
+            </nav>
+          </div>
+        </header>
 
-      <h3>📋 Patient Queue</h3>
-      <table border="1" cellPadding="5">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Contact</th>
-            <th>Gender</th>
-            <th>Time</th>
-            <th>Problem</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {appointments.map((a, i) => (
-            <tr key={i}>
-              <td>{a.name}</td>
-              <td>{a.contact}</td>
-              <td>{a.gender}</td>
-              <td>{new Date(a.appointmentTime).toLocaleString()}</td>
-              <td>{a.problem}</td>
-              <td>{a.status}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        {/* ✅ Page Content */}
+        <main className="p-6">
+          <Routes>
+            <Route path="/" element={<BookAppointment />} />
+            <Route path="/admin" element={<AdminQueue />} />
+            <Route path="/admindashboard" element={<Admin />} />
+          </Routes>
+        </main>
+
+        {/* ✅ Footer (optional for nice finish) */}
+        <footer className="text-center text-gray-500 text-sm py-4 border-t mt-8">
+          © {new Date().getFullYear()} Shree Ganesh Hospital. All rights reserved.
+        </footer>
+      </div>
+    </Router>
   );
 }
 
