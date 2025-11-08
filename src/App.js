@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import BookAppointment from "./components/BookAppointment";
-import AdminQueue from "./components/AdminQueue"
+import AdminQueue from "./components/AdminQueue";
 import Admin from "./components/Admin";
 
 function App() {
@@ -11,24 +11,22 @@ function App() {
         {/* ✅ Modern Header */}
         <header className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white shadow-lg">
           <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-            {/* Hospital Name */}
-            <h1 className="text-2xl font-bold tracking-wide flex items-center gap-2">
+            
+            {/* 🏥 Hospital Name → Clickable link to home */}
+            <Link
+              to="/"
+              className="text-2xl font-bold tracking-wide flex items-center gap-2 hover:text-yellow-300 transition"
+            >
               🏥 Shree Ganesh Hospital
-            </h1>
+            </Link>
 
             {/* Navigation */}
             <nav className="flex gap-6">
-              {/* <Link
-                to="/"
-                className="hover:text-yellow-300 font-medium transition"
-              >
-                Book Appointment
-              </Link> */}
               <Link
                 to="/admin"
                 className="hover:text-yellow-300 font-medium transition"
               >
-                Patient Queue (Admin View)
+                Patient Queue 
               </Link>
             </nav>
           </div>
@@ -43,7 +41,7 @@ function App() {
           </Routes>
         </main>
 
-        {/* ✅ Footer (optional for nice finish) */}
+        {/* ✅ Footer */}
         <footer className="text-center text-gray-500 text-sm py-4 border-t mt-8">
           © {new Date().getFullYear()} Shree Ganesh Hospital. All rights reserved.
         </footer>
